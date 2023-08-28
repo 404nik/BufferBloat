@@ -197,6 +197,12 @@ def bufferbloat():
     # spawned on host h1 (not from google!)
     # Hint: have a separate function to do this and you may find the
     # loop below useful.
+    def measurement(net, times = 3):	
+      h1, h2 = net.get('h1', 'h2')	
+      IP = h1.IP()	
+      command = 'curl -o /dev/null -s -w %%{time_total} %s/http/index.html' % IP	
+      results = [float(h2.cmd(command)) for i in range(times)]	
+      return results
     down_t = []	
     star_t = time()
     while True:	
@@ -224,11 +230,6 @@ def bufferbloat():
     # Ensure that all processes you create within Mininet are killed.
     # Sometimes they require manual killing.
     Popen("pgrep -f webserver.py | xargs kill -9", shell=True).wait()
-    def measurement(net, times = 3):	
-        h1, h2 = net.get('h1', 'h2')	
-        IP = h1.IP()	
-        command = 'curl -o /dev/null -s -w %%{time_total} %s/http/index.html' % IP	
-        results = [float(h2.cmd(command)) for i in range(times)]	
-        return results
+
 if __name__ == "__main__":
     bufferbloat()
