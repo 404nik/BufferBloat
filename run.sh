@@ -31,7 +31,7 @@ for qsize in 20 100; do
     python plot_tcpprobe.py -f $dir/cwnd.txt -o $dir/cwnd-iperf.png -p $iperf_port
     python plot_queue.py -f $dir/q.txt -o $dir/q.png
     python plot_ping.py -f $dir/ping.txt -o $dir/rtt.png
+    cp $dir/cwnd-iperf.png ./cwind-q$qsize.png
+    cp $dir/q.png ./buffer-q$qsize.png
+    cp $dir/rtt.png ./rtt-q$qsize.png
 done
-
-echo "Simulations are done! Results can be retrieved via the server"
-python -m SimpleHTTPServer
